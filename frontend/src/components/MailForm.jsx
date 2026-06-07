@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import Loader from "./Loader";
 
 function MailForm() {
+  const API = import.meta.env.VITE_API_URL;
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [emails, setEmails] = useState("");
@@ -46,6 +47,7 @@ function MailForm() {
       setLoading(true);
 
       // Excel Upload
+      // Excel Upload
       if (file) {
         const formData = new FormData();
 
@@ -54,7 +56,7 @@ function MailForm() {
         formData.append("body", body);
 
         const response = await axios.post(
-          "http://localhost:5000/send-excel-mails",
+          `${API}/send-excel-mails`,
           formData,
           {
             headers: {
@@ -75,7 +77,7 @@ function MailForm() {
 
       // Manual Email Sending
       const response = await axios.post(
-        "http://localhost:5000/send-mail",
+        `${API}/send-mail`,
         {
           subject,
           body,
@@ -84,7 +86,6 @@ function MailForm() {
       );
 
       toast.success(response.data.message);
-
       const history =
         JSON.parse(
           localStorage.getItem("mailHistory")
